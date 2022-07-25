@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "api-correios"
+version = "0.1.0"
+description = ""
+authors = ["Bruno Souza <bruno.souza@zaxapp.com.br>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+requests = "^2.28.1"
+pydantic = "^1.9.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+black = "^22.6.0"
+isort = "^5.10.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
