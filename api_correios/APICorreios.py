@@ -105,5 +105,4 @@ class APICorreios:
         response = Rastreamento(**response.json())
         response = response.dict(exclude_none=True)
     
-
         return response
