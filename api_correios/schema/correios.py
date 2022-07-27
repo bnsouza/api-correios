@@ -167,3 +167,89 @@ class Page(BaseModel):
 class Prepostagens(BaseModel):
     itens: Optional[List[Prepostagem]] = None
     page: Optional[Page] = None
+
+
+# Rastreamento -------------------------------------------------------------------------------------
+class TipoPostal(BaseModel):
+    sigla: Optional[str] = None
+    descricao: Optional[str] = None
+    categoria: Optional[str] = None
+
+
+class Recebedor(BaseModel):
+    nome: Optional[str] = None
+    documento: Optional[str] = None
+    celular: Optional[str] = None
+    email: Optional[str] = None
+    comentario: Optional[str] = None
+
+class Unidade(BaseModel):
+    nome: Optional[str] = None
+    codSro: Optional[str] = None
+    codMcu: Optional[str] = None
+    tipo: Optional[str] = None
+    endereco: Optional[Endereco] = None
+
+
+class EntregadorExterno(BaseModel):
+    documento: Optional[str] = None
+    nome: Optional[str] = None
+
+
+class Telefone(BaseModel):
+    tipo: Optional[str] = None
+    ddd: Optional[str] = None
+    numero: Optional[str] = None
+
+
+class DestinatarioRastreamento(BaseModel):
+    nome: Optional[str] = None
+    documento: Optional[str] = None
+    email: Optional[str] = None
+    telefones: Optional[List[Telefone]] = None
+    endereco: Optional[Endereco] = None
+
+
+class UnidadeDestino(BaseModel):
+    nome: Optional[str] = None
+    codSro: Optional[str] = None
+    codMcu: Optional[str] = None
+    tipo: Optional[str] = None
+    endereco: Optional[Endereco] = None
+
+
+class Evento(BaseModel):
+    codigo: Optional[str] = None
+    tipo: Optional[str] = None
+    dtHrCriado: Optional[str] = None
+    descricao: Optional[str] = None
+    detalhe: Optional[str] = None
+    recebedor: Optional[Recebedor] = None
+    unidade: Optional[Unidade] = None
+    entregadorExterno: Optional[EntregadorExterno] = None
+    destinatario: Optional[DestinatarioRastreamento] = None
+    comentario: Optional[str] = None
+    unidadeDestino: Optional[UnidadeDestino] = None
+
+
+class Objeto(BaseModel):
+    codObjeto: Optional[str] = None
+    tipoPostal: Optional[TipoPostal] = None
+    dtPrevista: Optional[str] = None
+    mensagem: Optional[str] = None
+    modalidade: Optional[str] = None
+    largura: Optional[int] = None
+    comprimento: Optional[int] = None
+    altura: Optional[int] = None
+    diametro: Optional[int] = None
+    peso: Optional[int] = None
+    formato: Optional[str] = None
+    valorDeclarado: Optional[int] = None
+    eventos: List[Evento] = None
+
+
+class Rastreamento(BaseModel):
+    versao: Optional[str] = None
+    quantidade: Optional[int] = None
+    resultado: Optional[str] = None
+    objetos: List[Objeto] = None

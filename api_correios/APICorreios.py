@@ -1,7 +1,6 @@
-from typing import Any, List, Optional, Union
 import json
 import requests
-from schema.correios import Ambiente, ListarPrepostagensRequest, Prepostagens, Prepostagem
+from schema.correios import Ambiente, ListarPrepostagensRequest, Prepostagens, Prepostagem, Rastreamento
 from utils.token import token_is_expired
 
 class APICorreios:
@@ -18,7 +17,7 @@ class APICorreios:
         self.usuario = usuario
         self.senha = senha
         self.cartao_postagem = cartao_postagem
-        self.base_url = "https://apihom.correios.com.br" if self.ambiente=='homologacao' else "https://api.correios.com.br"
+        self.base_url = "https://api.correios.com.br" if self.ambiente=='producao' else "https://apihom.correios.com.br"
         self.token = None
 
     def autentica(self):
@@ -45,7 +44,7 @@ class APICorreios:
             return False
         return True
 
-    def listar_prepostagens(self, **kwargs: dict) -> Prepostagens:
+    def listar_prepostagens(self, **kwargs: dict) -> dict:
         self.autentica()
 
         params = ListarPrepostagensRequest(**kwargs)
@@ -58,12 +57,10 @@ class APICorreios:
         )  
         response = Prepostagens(**response.json())
         response = response.dict(exclude_none=True)
-
-        print(response)
         
         return response
 
-    def criar_prepostagem(self, **kwargs: dict) -> Prepostagem:
+    def criar_prepostagem(self, **kwargs: dict) -> dict:
         self.autentica()
 
         payload = Prepostagem(**kwargs)
@@ -82,48 +79,23 @@ class APICorreios:
         
         return response
 
+    def rastrear_objeto(self, objetos: list, resultado: str = "U") -> dict:
+        self.autentica()
 
+        params = {'codigosObjetos': objetos, 'resultado': resultado}
+        headers = {
+            'Authorization': 'Bearer ' + self.token,
+            "Content-Type": "application/json"
+        }
 
-if __name__ == '__main__':
-    correios = APICorreios()
-    # correios.listar_prepostagens(page=0, size=50, tipoObjeto= 'TODOS')
-    # correios.criar_prepostagem(codigoServico= "03220",
-    #     destinatario= {
-    #         'nome': "commodo dolor veniam minim Lorem",
-    #         'dddCelular': "11",
-    #         'celular': "987875847",
-    #         'email': "teste2312@gmail.com",
-    #         'cpfCnpj': "38809594045",
-    #         'obs': "consequat quis fugiat",
-    #         'endereco': {
-    #         'cep': "12234005",
-    #         'logradouro': "dolore dolore",
-    #         'numero': "132",
-    #         'complemento': "in id",
-    #         'bairro': "et culpa",
-    #         'cidade': "incididunt laborum",
-    #         'uf': "SP"
-    #         }
-    #     },
-    #     remetente= {
-    #         'nome': "et labore",
-    #         'dddCelular': "12",
-    #         'celular': "987478574",
-    #         'email': "teste@gmail.com",
-    #         'cpfCnpj': "64907455003",
-    #         'obs': "esse in reprehenderit Ut",
-    #         'endereco': {
-    #         'cep': "12234005",
-    #         'logradouro': "veniam mollit Ut dolor",
-    #         'numero': "223",
-    #         'complemento': "deserunt sed ipsum nisi",
-    #         'bairro': "sit veniam",
-    #         'cidade': "cupidatat ad non",
-    #         'uf': "SP"
-    #         }
-    #     },
-    #     codigoFormatoObjetoInformado= "1",
-    #     pesoInformado= "10",
-    #     cienteObjetoNaoProibido= 1
-    # )
+        response = requests.get(
+            url=self.base_url + '/srorastro/v1/objetos', 
+            params=params, 
+            headers=headers
+        )  
 
+        response = Rastreamento(**response.json())
+        response = response.dict(exclude_none=True)
+    
+
+        return response
