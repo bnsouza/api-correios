@@ -28,7 +28,7 @@ class APICorreios:
         self.base_url = "https://api.correios.com.br" if self.ambiente=='producao' else "https://apihom.correios.com.br"
         self.token = None
 
-    def autentica(self):
+    def autentica(self) -> bool:
         token_expired = False
         if self.token:
             token_expired = token_is_expired(self.token)
