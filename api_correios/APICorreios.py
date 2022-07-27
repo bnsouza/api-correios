@@ -1,7 +1,15 @@
 import json
+
 import requests
-from schema.correios import Ambiente, ListarPrepostagensRequest, Prepostagens, Prepostagem, Rastreamento
+from schema.correios import (
+    Ambiente,
+    ListarPrepostagensRequest,
+    Prepostagem,
+    Prepostagens,
+    Rastreamento,
+)
 from utils.token import token_is_expired
+
 
 class APICorreios:
 
@@ -60,10 +68,10 @@ class APICorreios:
         
         return response
 
-    def criar_prepostagem(self, **kwargs: dict) -> dict:
+    def criar_prepostagem(self, prepostagem: dict) -> dict:
         self.autentica()
 
-        payload = Prepostagem(**kwargs)
+        payload = Prepostagem(**prepostagem)
         headers = {
             'Authorization': 'Bearer ' + self.token,
             "Content-Type": "application/json"
