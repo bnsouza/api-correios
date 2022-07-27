@@ -1,0 +1,29 @@
+name: Build & Upload Python Package (Poetry)
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.8'
+
+      - name: Publish python poetry package
+        uses: JRubics/poetry-publish@v1.12
+        with:
+          python_version: 3.8
+          pypi_token: ${{ secrets.PYPI_TOKEN }}
+          repository_name: api-correios
+          ignore_dev_requirements: "yes"
