@@ -11,7 +11,7 @@ from schema.correios import (
 from utils.token import token_is_expired
 
 
-class APICorreios:
+class Correios:
 
     ambiente: Ambiente = None
     usuario: str = None
