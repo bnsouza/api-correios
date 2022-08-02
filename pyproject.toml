@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "api-correios"
-version = "0.2.2"
+version = "0.2.4"
 description = "Módulo de integração com a nova versão REST API dos Correios"
 authors = ["Bruno Souza <bruno.souza@zaxapp.com.br>", "Christopher Frige <bruno.souza@zaxapp.com.br>"]
 license = "MIT"
