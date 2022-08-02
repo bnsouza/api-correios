@@ -1,14 +1,14 @@
 import json
 
 import requests
-from schema.correios import (
+from api_correios.schema.correios import (
     Ambiente,
     ListarPrepostagensRequest,
     Prepostagem,
     Prepostagens,
     Rastreamento,
 )
-from utils.token import token_is_expired
+from api_correios.utils.token import token_is_expired
 
 
 class Correios:
